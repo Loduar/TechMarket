@@ -1,0 +1,771 @@
+/* --- Configurações Gerais --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    overflow: auto; /* Para conter floats */
+}
+
+/* --- Cabeçalho e Navegação --- */
+header {
+    background: rgba(44, 62, 80, 0.9); /* Fundo semi-transparente */
+    color: #ecf0f1;
+    padding: 15px 0; /* Padding ajustado */
+    border-bottom: #1abc9c 3px solid;
+
+    /* Novas propriedades para "grudar" no topo */
+    position: sticky; 
+    top: 0;
+    width: 100%;
+    z-index: 100; /* Garante que fique acima de outros elementos */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    float: left;
+    font-size: 24px;
+}
+
+header nav {
+    float: right;
+    margin-top: 5px;
+}
+
+header li {
+    display: inline;
+    padding: 0 15px;
+}
+
+header a {
+    color: #ecf0f1;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header a:hover {
+    color: #1abc9c;
+    font-weight: bold;
+}
+
+/* --- Seção Principal (Boas-vindas) --- */
+#hero {
+    min-height: 400px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Propriedades da nova imagem de fundo */
+    /* MUDANÇA: Nova imagem de produtos */
+    background-image: url('https://images.pexels.com/photos/39284/macbook-apple-imac-computer-39284.jpeg');
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Necessário para o overlay */
+    z-index: 1; /* Para ficar atrás do overlay */
+}
+
+/* O "overlay" escuro para dar contraste ao texto */
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay preto 50% transparente */
+    z-index: 2; /* Fica entre o fundo e o texto */
+}
+
+/* Coloca o texto e o botão acima do overlay */
+#hero h2, #hero p, #hero a {
+    position: relative;
+    z-index: 3;
+}
+
+#hero h2 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: white; /* <-- ADICIONE ESTA LINHA */
+}
+
+#hero p {
+    font-size: 1.1em; /* Um pouco maior */
+    /* MUDANÇA: Sombra também no subtítulo */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Seções de Conteúdo (Produtos, Termos) --- */
+section {
+    padding: 30px 0;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Grid de Produtos (Layout 3-3) */
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 coluna por padrão (mobile) */
+    gap: 20px;
+}
+
+/* Media query para telas maiores (tablets e desktops) */
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas maiores */
+    }
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex; /* <-- ADICIONE ESTA LINHA */
+    flex-direction: column; /* <-- ADICIONE ESTA LINHA */
+    align-items: center;
+}
+
+.product-card h3 {
+    color: #1abc9c;
+}
+
+/* --- Termos de Uso --- */
+#termos-de-uso {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#termos-de-uso p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* --- Rodapé --- */
+footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+/* =====================================================
+--- INÍCIO DOS ESTILOS DO CHAT (CORRIGIDO) ---
+=====================================================
+*/
+
+/* --- Botão Flutuante de Chat --- */
+#chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3498db;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* --- Modal do Chat --- */
+#chat-modal {
+    display: none; /* Escondido por padrão, JavaScript o mostra */
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 900px;
+    height: 90%;
+    max-height: 700px; /* Limite de altura */
+    position: relative;
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+}
+
+/* --- Botão de Fechar --- */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1010; /* Acima de tudo no modal */
+}
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+}
+
+/* --- Tela 1: Opções Iniciais --- */
+#chat-options {
+    padding: 30px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+#options-title {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.chat-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+    max-width: 300px;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+#btn-lia {
+    background-color: #3498db;
+    color: white;
+}
+#btn-lia:hover {
+    background-color: #2980b9;
+}
+
+#btn-human {
+    background-color: #f39c12;
+    color: white;
+}
+#btn-human:hover {
+    background-color: #e67e22;
+}
+
+#chat-ui {
+    display: flex; /* JS vai mudar de 'none' para 'flex' */
+    flex-direction: column;
+    height: 100%; /* Ocupa o modal inteiro */
+}
+
+/* --- Cabeçalho do Modal (NOVO DESIGN) --- */
+#modal-header {
+    background-color: #34495e; /* Azul escuro */
+    color: white;
+    padding: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0; /* Não encolher */
+}
+
+.header-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#modal-title {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.chat-status {
+    margin: 0;
+    font-size: 0.85em;
+    color: #ccc;
+}
+
+/* --- Área de Mensagens --- */
+#chat-messages {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #34495e; /* NOVA COR DE FUNDO */
+}
+
+.message-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 70%;
+}
+
+.message-row.user-row {
+    justify-content: flex-end;
+    align-self: flex-end;
+}
+
+.message-row.bot-row {
+    justify-content: flex-start;
+    align-self: flex-start;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: #34495e; /* NOVO FUNDO DO AVATAR */
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 50px);
+}
+
+.chat-message {
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.4;
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.bot-row .chat-message {
+    background-color: #d1d9ea; /* COR ATUALIZADA (LAVANDA) */
+    color: #333;
+    border-bottom-left-radius: 5px;
+}
+
+.user-row .chat-message {
+    background-color: #f39c12;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.message-info {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.bot-row .message-info {
+    text-align: left;
+}
+
+/* --- Área de Input --- */
+#chat-input-area {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    gap: 10px;
+    flex-shrink: 0; /* Não encolher */
+}
+
+#chat-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+}
+#chat-input:focus {
+    border-color: #3498db;
+}
+
+/* --- NOVO ESTILO DO BOTÃO DE ENVIO --- */
+/* --- NOVO ESTILO DO BOTÃO DE ENVIO --- */
+#chat-send-btn {
+    background-color: #f39c12; /* Laranja */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    /* Para fazer o círculo */
+    width: 44px;  /* Largura fixa (ajuste se necessário) */
+    height: 44px; /* Altura fixa (igual à largura) */
+    border-radius: 50%; /* Círculo perfeito */
+
+    /* Para centralizar o ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Impede que o botão encolha */
+
+    /* Estilo do ícone */
+    font-size: 1.2em;
+    line-height: 1;
+    /* A linha padding-left foi removida */
+}
+
+#chat-send-btn:hover {
+    background-color: #e67e22; /* Laranja mais escuro */
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+    }
+}
+
+/* =====================================================
+--- FIM DOS ESTILOS DO CHAT ---
+=====================================================
+*/
+
+
+/* --- Estilo das Imagens dos Produtos (Original) --- */
+/* --- Estilo das Imagens dos Produtos (Corrigido) --- */
+.product-card .product-image {
+    width: 100%;       /* Faz a imagem ocupar 100% da largura do card */
+    max-width: 200px;  /* Define uma largura máxima para não ficar gigante */
+    height: 150px;     /* Força todas as imagens a terem a mesma altura */
+    object-fit: contain; /* Garante que a imagem cubra o espaço, 
+                           mantendo a proporção (corta se necessário) */
+    border-radius: 5px; /* Adiciona bordas arredondadas leves */
+    margin-bottom: 15px; /* Adiciona um espaço abaixo da imagem */
+}
+
+/* --- Estilos para Imagens e Conteúdo HTML no Chat --- */
+
+/* Faz a imagem se ajustar ao balão */
+.chat-message img.responsive-image {
+    max-width: 100%;
+    border-radius: 15px; /* Arredonda a imagem */
+    display: block;
+}
+
+/* Estilo para um balão que contém APENAS uma imagem */
+.bot-row .chat-message.image-bubble {
+    padding: 5px; /* Menos padding */
+    background-color: #d1d9ea; /* Mesma cor do bot */
+}
+
+/* Estilos para o recibo da compra */
+.chat-message strong {
+    color: #333; /* Cor mais escura para destaque */
+}
+
+/* =====================================================
+--- ESTILOS DO NOVO MODAL DE ESPECIFICAÇÕES ---
+=====================================================
+*/
+
+/* --- Botão "Ver Detalhes" no Card --- */
+.spec-button {
+    background-color: #1abc9c; /* Cor verde do header */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px; /* Espaço acima do botão */
+    transition: background-color 0.3s;
+    margin-top: auto; /* <-- ADICIONE ESTA LINHA */
+}
+
+.spec-button:hover {
+    background-color: #16a085;
+}
+
+/* --- Fundo do Modal (Backdrop) --- */
+.spec-modal-backdrop {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1002; /* Acima do chat-bubble, abaixo do chat-modal */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Conteúdo do Modal --- */
+.spec-modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px; /* Largura do modal */
+    max-height: 90vh; /* Altura máxima */
+    overflow-y: auto;
+    position: relative;
+    padding: 30px;
+}
+
+/* --- Botão de Fechar --- */
+.spec-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.spec-close-btn:hover {
+    color: #000;
+}
+
+/* --- Layout Interno (Imagem + Infos) --- */
+.spec-modal-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.spec-modal-image-col {
+    flex-basis: 40%; /* Imagem ocupa 40% */
+}
+
+.spec-modal-info-col {
+    flex-basis: 60%; /* Infos ocupam 60% */
+}
+
+.spec-modal-image-col img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.spec-modal-info-col h2 {
+    text-align: left;
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.spec-modal-info-col h3 {
+    color: #333;
+    font-size: 18px;
+    border-bottom: 2px solid #f4f4f4;
+    padding-bottom: 5px;
+    margin-top: 25px;
+}
+
+/* --- Lista de Especificações --- */
+#modal-product-specs {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+}
+
+#modal-product-specs li {
+    background-color: #f9f9f9;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#modal-product-specs li strong {
+    color: #2c3e50; /* Cor escura do header */
+    margin-right: 5px;
+}
+
+/* --- Botão do Manual --- */
+.manual-button {
+    display: inline-block;
+    background-color: #f39c12; /* Cor laranja */
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.manual-button:hover {
+    background-color: #e67e22;
+}
+
+/* --- Responsividade do Modal de Specs --- */
+@media (max-width: 768px) {
+    .spec-modal-layout {
+        flex-direction: column; /* Empilha a imagem em cima das infos */
+    }
+}
+
+/* --- Ajuste para a bolha do usuário (sem avatar) --- */
+.user-row .message-content {
+    max-width: 100%; /* Permite que a bolha do usuário ocupe o espaço */
+}
+
+/* --- Estilos da Tela de Espera (NOVO) --- */
+#chat-waiting {
+    padding: 30px;
+    text-align: center;
+    height: 100%;
+    /* display: flex; (O JavaScript vai controlar isso) */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+#chat-waiting h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.5em;
+}
+
+#countdown-text {
+    font-size: 1.5em; /* Um pouco menor, mas ainda destacado */
+    font-weight: bold;
+    color: #1abc9c; /* Verde do tema */
+    margin: 15px 0;
+}
+
+.waiting-note {
+    font-size: 0.8em;
+    color: #888;
+}
+
+/* --- Estilo do Botão do Hero (NOVO) --- */
+.hero-cta-button {
+    background: #1abc9c; /* Cor de destaque do site */
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 25px;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.hero-cta-button:hover {
+    background-color: #16a085; /* Tom mais escuro */
+    transform: translateY(-2px); /* Efeito de "levantar" */
+}
+
+/* =====================================================
+--- ESTILOS DO MODAL DE TERMOS DE USO ---
+=====================================================
+*/
+
+.terms-modal-backdrop {
+    display: none; /* JS vai mostrar no load, se necessário */
+    position: fixed;
+    z-index: 1003; /* Acima de tudo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Mais escuro para focar */
+    justify-content: center;
+    align-items: center;
+}
+
+.terms-modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 700px; /* Um bom tamanho para texto */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terms-modal-content h2 {
+    text-align: left;
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+/* Área rolável para os termos */
+.terms-text-content {
+    max-height: 300px; /* Limita a altura do texto */
+    overflow-y: auto; /* Adiciona scroll */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.terms-text-content p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Botão de Aceite */
+#terms-accept-btn {
+    background: #1abc9c; /* Verde do tema */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+#terms-accept-btn:hover {
+    background-color: #16a085;
+}
+
+#modal-product-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1abc9c; /* Cor verde do tema */
+    margin-top: 10px; /* Espaço acima */
+    margin-bottom: 15px; /* Espaço abaixo (antes da descrição) */
+}

@@ -36,11 +36,32 @@ const modalProductManualLink = document.getElementById('modal-product-manual-lin
 const termsModal = document.getElementById('terms-modal');
 const termsAcceptBtn = document.getElementById('terms-accept-btn');
 
+// --- SELETORES DO CARRINHO DE COMPRAS ---
+const cartNavLink = document.getElementById('cart-nav-link');
+const cartItemCount = document.getElementById('cart-item-count');
+const shoppingCartModal = document.getElementById('shopping-cart-modal');
+const closeCartBtn = document.querySelector('.cart-close-btn');
+const addToCartBtn = document.getElementById('add-to-cart-btn');
+const cartItemsList = document.getElementById('cart-items-list');
+const cartTotalPrice = document.getElementById('cart-total-price');
+const checkoutBtn = document.getElementById('checkout-btn');
+const cartEmptyMessage = document.getElementById('cart-empty-message');
+
+// --- (NOVO) SELETORES DO MODAL DE PAGAMENTO E SUCESSO ---
+const paymentModal = document.getElementById('payment-modal');
+const paymentCloseBtn = document.querySelector('.payment-close-btn');
+const paymentForm = document.getElementById('payment-form');
+const payNowBtn = document.getElementById('pay-now-btn');
+const successModal = document.getElementById('success-modal');
+const successCloseBtn = document.querySelector('.success-close-btn');
+const successOrderTotal = document.getElementById('success-order-total');
+
 
 let userName = ''; 
 let chatState = 'options';
 let lastRecommendedProduct = null;
 let countdownTimerInterval = null; 
+let shoppingCart = []; // <-- NOSSO CARRINHO DE COMPRAS
 
 // --- NOSSA NOVA BASE DE DADOS DE PRODUTOS ---
 // --- NOSSA NOVA BASE DE DADOS DE PRODUTOS ---
@@ -48,7 +69,7 @@ const productDatabase = [
     // --- (PRODUTO ZX-5000 ATUALIZADO PARA "FRACA") ---
     {
         id: 'zx5000',
-        name: 'Notebook Ultra Pro', // O nome é "Pro", mas as specs não são
+        name: 'Notebook UltraBook ZX-5000', // O nome é "Pro", mas as specs não são
         description: 'Ideal para tarefas do dia a dia, como estudos, navegação na web e pacote Office. Leve e portátil.', // Descrição de PC básico
         priceFormatted: 'R$ 6.500,00', // Preço muito mais baixo
         image: 'images/Notebook.jpg',
@@ -112,7 +133,7 @@ const productDatabase = [
         },
         manualLink: 'manuais/Watch.pdf'
     },
-    // --- (GALAXY TAB S10 ULTRA - SUBSTITUI O 'protab') ---
+    // --- (GALAXY TAB S10 ULTRA - SUBSTITUIO 'protab') ---
     {
         id: 'protab',
         name: 'Samsung Galaxy Tab S10 Ultra',
@@ -185,6 +206,9 @@ function openProductModal(productId) {
     modalProductImage.alt = product.name;
     modalProductManualLink.href = product.manualLink;
 
+    // Atribui o ID ao botão de adicionar ao carrinho
+    addToCartBtn.setAttribute('data-id', product.id);
+
     modalProductSpecs.innerHTML = ''; 
     for (const key in product.specifications) {
         const value = product.specifications[key];
@@ -199,7 +223,7 @@ function closeProductModal() {
     productModal.style.display = 'none';
 }
 
-// --- (NOVO) FUNÇÃO DO MODAL DE TERMOS ---
+// --- FUNÇÃO DO MODAL DE TERMOS ---
 function closeTermsModal() {
     termsModal.style.display = 'none';
     localStorage.setItem('termsAccepted', 'true'); // Salva o aceite
@@ -393,18 +417,133 @@ function handleSendMessage() {
     }
 }
 
+// =======================================================
+// --- (NOVO) FUNÇÕES DO CARRINHO DE COMPRAS ---
+// =======================================================
+
+/**
+ * Converte um preço em string (ex: "R$ 6.500,00") para um número (ex: 6500.00)
+ */
+function parsePrice(priceString) {
+    return Number(priceString.replace('R$ ', '').replace('.', '').replace(',', '.'));
+}
+
+/**
+ * Formata um número (ex: 6500.00) para string (ex: "R$ 6.500,00")
+ */
+function formatPrice(priceNumber) {
+    return priceNumber.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+/**
+ * Adiciona um produto ao carrinho
+ */
+function addToCart(productId) {
+    const product = productDatabase.find(p => p.id === productId);
+    if (!product) return;
+
+    // Verifica se o item já está no carrinho
+    const existingItem = shoppingCart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.quantity++; // Apenas incrementa a quantidade
+    } else {
+        // Adiciona o item com quantidade 1 e preço numérico
+        shoppingCart.push({
+            id: product.id,
+            name: product.name,
+            price: parsePrice(product.priceFormatted),
+            image: product.image,
+            quantity: 1
+        });
+    }
+
+    updateCartUI();
+}
+
+/**
+ * Remove um produto do carrinho
+ */
+function removeFromCart(productId) {
+    shoppingCart = shoppingCart.filter(item => item.id !== productId);
+    updateCartUI();
+}
+
+/**
+ * Atualiza a interface do modal do carrinho
+ */
+// CÓDIGO NOVO (CORRIGIDO)
+function updateCartUI() {
+    // 1. Limpa a lista atual
+    cartItemsList.innerHTML = ''; 
+
+    // (MUDANÇA 1) Inicializa o total ANTES do 'if'
+    let total = 0; 
+
+    if (shoppingCart.length === 0) {
+        cartItemsList.appendChild(cartEmptyMessage);
+        cartEmptyMessage.style.display = 'block';
+        // O total permanece 0, o que é correto
+    } else { 
+        cartEmptyMessage.style.display = 'none';
+        
+        // 2. Redesenha os itens e calcula o total
+        shoppingCart.forEach(item => {
+            total += item.price * item.quantity; // Apenas calcula
+
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-item');
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <p>Qtd: ${item.quantity}</p>
+                </div>
+                <div class="cart-item-price">
+                    <p>${formatPrice(item.price * item.quantity)}</p>
+                    <button class="remove-from-cart-btn" data-id="${item.id}">Remover</button>
+                </div>
+            `;
+            cartItemsList.appendChild(itemElement);
+        });
+    }
+
+    // 3. (MUDANÇA 2) Atualiza o preço total DEPOIS do 'if/else'
+    // Desta forma, ele sempre será atualizado,
+    // seja para R$ 450,00 ou R$ 0,00.
+    cartTotalPrice.innerText = formatPrice(total);
+
+    // 4. Atualiza o contador do header (já estava no lugar certo)
+    const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+    cartItemCount.innerText = totalItems;
+}
+
+
 // --- Adicionando os Eventos de Clique ---
 
 // 1. Clicar no botão flutuante
 chatBubble.addEventListener('click', openModal);
 
-// 2. Clicar no 'X' para fechar
+// 2. Clicar no 'X' para fechar (Chat)
 closeModalBtn.addEventListener('click', closeModal);
 
-// 3. Clicar fora do modal para fechar
+// 3. Clicar fora do modal para fechar (Chat)
 window.addEventListener('click', function(event) {
     if (event.target == chatModal) {
         closeModal();
+    }
+    // (NOVO) Fechar outros modais clicando fora
+    if (event.target == productModal) {
+        closeProductModal();
+    }
+    if (event.target == shoppingCartModal) {
+        shoppingCartModal.style.display = 'none';
+    }
+    if (event.target == paymentModal) {
+        paymentModal.style.display = 'none';
+    }
+    if (event.target == successModal) {
+        successModal.style.display = 'none';
     }
 });
 
@@ -444,14 +583,8 @@ specButtons.forEach(button => {
 
 specCloseBtn.addEventListener('click', closeProductModal);
 
-window.addEventListener('click', function(event) {
-    if (event.target == productModal) {
-        closeProductModal();
-    }
-});
 
-
-// --- (NOVO) EVENT LISTENERS DO MODAL DE TERMOS ---
+// --- EVENT LISTENERS DO MODAL DE TERMOS ---
 
 // 1. Ao clicar em Aceitar
 termsAcceptBtn.addEventListener('click', closeTermsModal);
@@ -461,5 +594,87 @@ window.addEventListener('load', () => {
     if (localStorage.getItem('termsAccepted') !== 'true') {
         termsModal.style.display = 'flex';
     }
+    // Garante que a mensagem de carrinho vazio apareça no load
+    cartEmptyMessage.style.display = 'block';
+});
 
+
+// --- EVENT LISTENERS DO CARRINHO DE COMPRAS ---
+
+// 1. Abrir modal do carrinho
+cartNavLink.addEventListener('click', (e) => {
+    e.preventDefault(); // Impede que o link "#" mude a URL
+    shoppingCartModal.style.display = 'flex';
+});
+
+// 2. Fechar modal do carrinho
+closeCartBtn.addEventListener('click', () => {
+    shoppingCartModal.style.display = 'none';
+});
+
+// 3. Adicionar ao carrinho (botão no modal de specs)
+addToCartBtn.addEventListener('click', () => {
+    const productId = addToCartBtn.getAttribute('data-id');
+    addToCart(productId);
+    closeProductModal(); // Fecha o modal de detalhes
+    shoppingCartModal.style.display = 'flex'; // Abre o modal do carrinho
+});
+
+// 4. Remover do carrinho (usando delegação de eventos)
+cartItemsList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-from-cart-btn')) {
+        const productId = e.target.getAttribute('data-id');
+        removeFromCart(productId);
+    }
+});
+
+// 5. (MODIFICADO) Finalizar Compra -> Abre o Pagamento
+checkoutBtn.addEventListener('click', () => {
+    if (shoppingCart.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+    
+    // Agora, em vez de um alerta, abre o modal de pagamento
+    shoppingCartModal.style.display = 'none';
+    paymentModal.style.display = 'flex';
+});
+
+
+// ==========================================================
+// --- (NOVO) EVENT LISTENERS DE PAGAMENTO E SUCESSO ---
+// ==========================================================
+
+// 1. Fechar modal de Pagamento
+paymentCloseBtn.addEventListener('click', () => {
+    paymentModal.style.display = 'none';
+});
+
+// 2. Processar Pagamento (Submit do formulário)
+paymentForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Impede o recarregamento da página
+    
+    // Simulação de pagamento
+    const totalValue = cartTotalPrice.innerText;
+    
+    // Atualiza o modal de sucesso com o valor
+    successOrderTotal.innerText = totalValue;
+
+    // Limpa o formulário (opcional, mas bom)
+    paymentForm.reset();
+    
+    // Esconde o modal de pagamento
+    paymentModal.style.display = 'none';
+    
+    // Mostra o modal de sucesso
+    successModal.style.display = 'flex';
+    
+    // AGORA sim, limpa o carrinho e atualiza a UI
+    shoppingCart = [];
+    updateCartUI(); // Limpa o carrinho e o contador do header
+});
+
+// 3. Fechar modal de Sucesso
+successCloseBtn.addEventListener('click', () => {
+    successModal.style.display = 'none';
 });

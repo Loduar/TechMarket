@@ -613,16 +613,21 @@ footer {
 }
 
 /* --- Botão do Manual --- */
+/* --- Botão do Manual --- */
 .manual-button {
-    display: inline-block;
-    background-color: #f39c12; /* Cor laranja */
-    color: white;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+    display: block; /* MUDANÇA: de inline-block para block */
+    width: 100%; /* ADIÇÃO: Ocupa 100% da largura */
+    box-sizing: border-box; /* ADIÇÃO: Garante que o padding não quebre o layout */
+    text-align: center; /* ADIÇÃO: Centraliza o texto dentro do botão */
+    
+    background-color: #f39c12; /* (Estilo existente) */
+    color: white; /* (Estilo existente) */
+    text-decoration: none; /* (Estilo existente) */
+    padding: 12px 20px; /* (Estilo existente) */
+    border-radius: 5px; /* (Estilo existente) */
+    font-weight: bold; /* (Estilo existente) */
+    margin-top: 20px; /* (Estilo existente) */
+    transition: background-color 0.3s; /* (Estilo existente) */
 }
 
 .manual-button:hover {
@@ -768,4 +773,300 @@ footer {
     color: #1abc9c; /* Cor verde do tema */
     margin-top: 10px; /* Espaço acima */
     margin-bottom: 15px; /* Espaço abaixo (antes da descrição) */
+}
+
+/* =====================================================
+--- (NOVO) ESTILOS DO CARRINHO DE COMPRAS ---
+=====================================================
+*/
+
+/* --- Link do Carrinho no Header --- */
+#cart-nav-link {
+    background-color: #1abc9c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+#cart-nav-link:hover {
+    background-color: #16a085;
+    color: white; /* Garante que a cor do hover se mantenha */
+}
+
+/* --- Botão de Adicionar ao Carrinho (Modal de Specs) --- */
+.add-to-cart-button {
+    display: block;
+    width: 100%;
+    background-color: #1abc9c; /* Verde do tema */
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.add-to-cart-button:hover {
+    background-color: #16a085;
+}
+
+
+/* --- Conteúdo do Modal do Carrinho --- */
+.cart-modal-content {
+    max-width: 700px; /* Um pouco menor que o de specs */
+}
+
+.cart-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.cart-close-btn:hover {
+    color: #000;
+}
+
+/* --- Lista de Itens do Carrinho --- */
+#cart-items-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+#cart-empty-message {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+    font-size: 1.1em;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #f4f4f4;
+}
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-item-info {
+    flex-grow: 1; /* Ocupa o espaço restante */
+}
+.cart-item-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+.cart-item-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.cart-item-price {
+    text-align: right;
+}
+.cart-item-price p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.remove-from-cart-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.remove-from-cart-btn:hover {
+    background: #c0392b;
+}
+
+
+/* --- Área do Total --- */
+#cart-total-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#cart-total-area h3 {
+    margin: 0;
+    color: #333;
+}
+
+#cart-total-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1abc9c;
+}
+
+/* --- Botão de Finalizar Compra --- */
+.checkout-button {
+    display: block;
+    width: 100%;
+    background-color: #f39c12; /* Laranja */
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: #e67e22;
+}
+
+
+/* =====================================================
+--- (NOVO) ESTILOS MODAL PAGAMENTO E SUCESSO ---
+=====================================================
+*/
+
+/* --- Modal de Pagamento --- */
+.payment-modal-content {
+    max-width: 500px; /* Mais estreito para formulário */
+}
+
+.payment-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.payment-close-btn:hover {
+    color: #000;
+}
+
+/* --- Formulário de Pagamento --- */
+#payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    font-size: 14px;
+}
+
+.payment-input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1; /* Ocupa metade do espaço */
+}
+
+.pay-now-button {
+    background: #1abc9c; /* Verde do tema */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.pay-now-button:hover {
+    background-color: #16a085;
+}
+
+
+/* --- Modal de Sucesso --- */
+.success-modal-content {
+    max-width: 450px;
+    text-align: center;
+    padding: 40px; /* Mais padding para destacar */
+}
+
+.success-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.success-close-btn:hover {
+    color: #000;
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #1abc9c;
+    margin-bottom: 15px;
+}
+
+.success-modal-content h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.success-modal-content p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.success-modal-content p strong {
+    color: #333;
+}
+
+#success-order-total {
+    font-weight: bold;
+    color: #1abc9c;
 }

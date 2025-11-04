@@ -1,4 +1,3 @@
-/* --- Configurações Gerais --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
@@ -12,21 +11,21 @@ body {
     max-width: 1100px;
     margin: auto;
     padding: 0 20px;
-    overflow: auto; /* Para conter floats */
+    overflow: auto; 
 }
 
-/* --- Cabeçalho e Navegação --- */
+
 header {
-    background: rgba(44, 62, 80, 0.9); /* Fundo semi-transparente */
+    background: rgba(44, 62, 80, 0.9); 
     color: #ecf0f1;
-    padding: 15px 0; /* Padding ajustado */
+    padding: 15px 0; 
     border-bottom: #1abc9c 3px solid;
 
-    /* Novas propriedades para "grudar" no topo */
+    
     position: sticky; 
     top: 0;
     width: 100%;
-    z-index: 100; /* Garante que fique acima de outros elementos */
+    z-index: 100; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
@@ -58,7 +57,6 @@ header a:hover {
     font-weight: bold;
 }
 
-/* --- Seção Principal (Boas-vindas) --- */
 #hero {
     min-height: 400px;
     color: white;
@@ -68,16 +66,15 @@ header a:hover {
     justify-content: center;
     align-items: center;
 
-    /* Propriedades da nova imagem de fundo */
-    /* MUDANÇA: Nova imagem de produtos */
+    
     background-image: url('https://images.pexels.com/photos/39284/macbook-apple-imac-computer-39284.jpeg');
     background-size: cover;
     background-position: center;
-    position: relative; /* Necessário para o overlay */
-    z-index: 1; /* Para ficar atrás do overlay */
+    position: relative; 
+    z-index: 1; 
 }
 
-/* O "overlay" escuro para dar contraste ao texto */
+
 #hero::before {
     content: '';
     position: absolute;
@@ -85,11 +82,11 @@ header a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay preto 50% transparente */
-    z-index: 2; /* Fica entre o fundo e o texto */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2; 
 }
 
-/* Coloca o texto e o botão acima do overlay */
+
 #hero h2, #hero p, #hero a {
     position: relative;
     z-index: 3;
@@ -100,16 +97,15 @@ header a:hover {
     font-weight: 700;
     margin-bottom: 15px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    color: white; /* <-- ADICIONE ESTA LINHA */
+    color: white; 
 }
 
 #hero p {
-    font-size: 1.1em; /* Um pouco maior */
-    /* MUDANÇA: Sombra também no subtítulo */
+    font-size: 1.1em; 
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Seções de Conteúdo (Produtos, Termos) --- */
+
 section {
     padding: 30px 0;
 }
@@ -121,17 +117,17 @@ section h2 {
     color: #2c3e50;
 }
 
-/* Grid de Produtos (Layout 3-3) */
+
 .product-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna por padrão (mobile) */
+    grid-template-columns: 1fr; 
     gap: 20px;
 }
 
-/* Media query para telas maiores (tablets e desktops) */
+
 @media (min-width: 768px) {
     .product-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas maiores */
+        grid-template-columns: repeat(3, 1fr); 
     }
 }
 
@@ -142,8 +138,8 @@ section h2 {
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: flex; /* <-- ADICIONE ESTA LINHA */
-    flex-direction: column; /* <-- ADICIONE ESTA LINHA */
+    display: flex; 
+    flex-direction: column; 
     align-items: center;
 }
 
@@ -151,7 +147,7 @@ section h2 {
     color: #1abc9c;
 }
 
-/* --- Termos de Uso --- */
+
 #termos-de-uso {
     background: #fff;
     padding: 20px;
@@ -163,7 +159,7 @@ section h2 {
     color: #555;
 }
 
-/* --- Rodapé --- */
+
 footer {
     background: #2c3e50;
     color: #ecf0f1;
@@ -172,12 +168,7 @@ footer {
     margin-top: 30px;
 }
 
-/* =====================================================
---- INÍCIO DOS ESTILOS DO CHAT (CORRIGIDO) ---
-=====================================================
-*/
 
-/* --- Botão Flutuante de Chat --- */
 #chat-bubble {
     position: fixed;
     bottom: 20px;
@@ -196,16 +187,16 @@ footer {
     z-index: 1000;
 }
 
-/* --- Modal do Chat --- */
+
 #chat-modal {
-    display: none; /* Escondido por padrão, JavaScript o mostra */
+    display: none; 
     position: fixed;
     z-index: 1001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.4); 
     justify-content: center;
     align-items: center;
 }
@@ -217,12 +208,12 @@ footer {
     width: 90%;
     max-width: 900px;
     height: 90%;
-    max-height: 700px; /* Limite de altura */
+    max-height: 700px; 
     position: relative;
-    overflow: hidden; /* Garante que o conteúdo não vaze */
+    overflow: hidden;
 }
 
-/* --- Botão de Fechar --- */
+
 .close-btn {
     color: #aaa;
     font-size: 28px;
@@ -231,14 +222,14 @@ footer {
     top: 15px;
     right: 20px;
     cursor: pointer;
-    z-index: 1010; /* Acima de tudo no modal */
+    z-index: 1010; 
 }
 .close-btn:hover,
 .close-btn:focus {
     color: #000;
 }
 
-/* --- Tela 1: Opções Iniciais --- */
+
 #chat-options {
     padding: 30px;
     text-align: center;
@@ -284,14 +275,14 @@ footer {
 }
 
 #chat-ui {
-    display: flex; /* JS vai mudar de 'none' para 'flex' */
+    display: flex; 
     flex-direction: column;
-    height: 100%; /* Ocupa o modal inteiro */
+    height: 100%; 
 }
 
-/* --- Cabeçalho do Modal (NOVO DESIGN) --- */
+
 #modal-header {
-    background-color: #34495e; /* Azul escuro */
+    background-color: #34495e; 
     color: white;
     padding: 20px;
     border-top-left-radius: 12px;
@@ -299,7 +290,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex-shrink: 0; /* Não encolher */
+    flex-shrink: 0; 
 }
 
 .header-avatar {
@@ -321,15 +312,15 @@ footer {
     color: #ccc;
 }
 
-/* --- Área de Mensagens --- */
+
 #chat-messages {
-    flex-grow: 1; /* Ocupa o espaço restante */
+    flex-grow: 1; 
     overflow-y: auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    background-color: #34495e; /* NOVA COR DE FUNDO */
+    background-color: #34495e; 
 }
 
 .message-row {
@@ -355,7 +346,7 @@ footer {
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    background-color: #34495e; /* NOVO FUNDO DO AVATAR */
+    background-color: #34495e; 
 }
 
 .message-content {
@@ -373,7 +364,7 @@ footer {
 }
 
 .bot-row .chat-message {
-    background-color: #d1d9ea; /* COR ATUALIZADA (LAVANDA) */
+    background-color: #d1d9ea; 
     color: #333;
     border-bottom-left-radius: 5px;
 }
@@ -395,14 +386,14 @@ footer {
     text-align: left;
 }
 
-/* --- Área de Input --- */
+
 #chat-input-area {
     display: flex;
     padding: 15px 20px;
     background-color: #fff;
     border-top: 1px solid #ddd;
     gap: 10px;
-    flex-shrink: 0; /* Não encolher */
+    flex-shrink: 0; 
 }
 
 #chat-input {
@@ -417,37 +408,36 @@ footer {
     border-color: #3498db;
 }
 
-/* --- NOVO ESTILO DO BOTÃO DE ENVIO --- */
-/* --- NOVO ESTILO DO BOTÃO DE ENVIO --- */
+
 #chat-send-btn {
-    background-color: #f39c12; /* Laranja */
+    background-color: #f39c12; 
     color: white;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 
-    /* Para fazer o círculo */
-    width: 44px;  /* Largura fixa (ajuste se necessário) */
-    height: 44px; /* Altura fixa (igual à largura) */
-    border-radius: 50%; /* Círculo perfeito */
+    
+    width: 44px;  
+    height: 44px; 
+    border-radius: 50%; 
 
-    /* Para centralizar o ícone */
+    
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Impede que o botão encolha */
+    flex-shrink: 0; 
 
-    /* Estilo do ícone */
+    
     font-size: 1.2em;
     line-height: 1;
-    /* A linha padding-left foi removida */
+    
 }
 
 #chat-send-btn:hover {
-    background-color: #e67e22; /* Laranja mais escuro */
+    background-color: #e67e22; 
 }
 
-/* --- Responsividade --- */
+
 @media (max-width: 768px) {
     .modal-content {
         width: 100%;
@@ -457,52 +447,37 @@ footer {
     }
 }
 
-/* =====================================================
---- FIM DOS ESTILOS DO CHAT ---
-=====================================================
-*/
 
-
-/* --- Estilo das Imagens dos Produtos (Original) --- */
-/* --- Estilo das Imagens dos Produtos (Corrigido) --- */
 .product-card .product-image {
-    width: 100%;       /* Faz a imagem ocupar 100% da largura do card */
-    max-width: 200px;  /* Define uma largura máxima para não ficar gigante */
-    height: 150px;     /* Força todas as imagens a terem a mesma altura */
-    object-fit: contain; /* Garante que a imagem cubra o espaço, 
-                           mantendo a proporção (corta se necessário) */
-    border-radius: 5px; /* Adiciona bordas arredondadas leves */
-    margin-bottom: 15px; /* Adiciona um espaço abaixo da imagem */
+    width: 100%;       
+    max-width: 200px;  
+    height: 150px;     
+    object-fit: contain; 
+    border-radius: 5px; 
+    margin-bottom: 15px; 
 }
 
-/* --- Estilos para Imagens e Conteúdo HTML no Chat --- */
 
-/* Faz a imagem se ajustar ao balão */
 .chat-message img.responsive-image {
     max-width: 100%;
-    border-radius: 15px; /* Arredonda a imagem */
+    border-radius: 15px; 
     display: block;
 }
 
-/* Estilo para um balão que contém APENAS uma imagem */
+
 .bot-row .chat-message.image-bubble {
-    padding: 5px; /* Menos padding */
-    background-color: #d1d9ea; /* Mesma cor do bot */
+    padding: 5px; 
+    background-color: #d1d9ea; 
 }
 
-/* Estilos para o recibo da compra */
+
 .chat-message strong {
-    color: #333; /* Cor mais escura para destaque */
+    color: #333; 
 }
 
-/* =====================================================
---- ESTILOS DO NOVO MODAL DE ESPECIFICAÇÕES ---
-=====================================================
-*/
 
-/* --- Botão "Ver Detalhes" no Card --- */
 .spec-button {
-    background-color: #1abc9c; /* Cor verde do header */
+    background-color: #1abc9c; 
     color: white;
     border: none;
     padding: 10px 15px;
@@ -510,20 +485,20 @@ footer {
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    margin-top: 15px; /* Espaço acima do botão */
+    margin-top: 15px; 
     transition: background-color 0.3s;
-    margin-top: auto; /* <-- ADICIONE ESTA LINHA */
+    margin-top: auto; 
 }
 
 .spec-button:hover {
     background-color: #16a085;
 }
 
-/* --- Fundo do Modal (Backdrop) --- */
+
 .spec-modal-backdrop {
-    display: none; /* Escondido por padrão */
+    display: none; 
     position: fixed;
-    z-index: 1002; /* Acima do chat-bubble, abaixo do chat-modal */
+    z-index: 1002; 
     left: 0;
     top: 0;
     width: 100%;
@@ -533,20 +508,19 @@ footer {
     align-items: center;
 }
 
-/* --- Conteúdo do Modal --- */
 .spec-modal-content {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 90%;
-    max-width: 800px; /* Largura do modal */
-    max-height: 90vh; /* Altura máxima */
+    max-width: 800px; 
+    max-height: 90vh; 
     overflow-y: auto;
     position: relative;
     padding: 30px;
 }
 
-/* --- Botão de Fechar --- */
+
 .spec-close-btn {
     color: #aaa;
     font-size: 28px;
@@ -560,18 +534,18 @@ footer {
     color: #000;
 }
 
-/* --- Layout Interno (Imagem + Infos) --- */
+
 .spec-modal-layout {
     display: flex;
     gap: 30px;
 }
 
 .spec-modal-image-col {
-    flex-basis: 40%; /* Imagem ocupa 40% */
+    flex-basis: 40%; 
 }
 
 .spec-modal-info-col {
-    flex-basis: 60%; /* Infos ocupam 60% */
+    flex-basis: 60%;
 }
 
 .spec-modal-image-col img {
@@ -593,7 +567,7 @@ footer {
     margin-top: 25px;
 }
 
-/* --- Lista de Especificações --- */
+
 #modal-product-specs {
     list-style: none;
     padding-left: 0;
@@ -608,55 +582,54 @@ footer {
 }
 
 #modal-product-specs li strong {
-    color: #2c3e50; /* Cor escura do header */
+    color: #2c3e50; 
     margin-right: 5px;
 }
 
-/* --- Botão do Manual --- */
-/* --- Botão do Manual --- */
+
 .manual-button {
-    display: block; /* MUDANÇA: de inline-block para block */
-    width: 100%; /* ADIÇÃO: Ocupa 100% da largura */
-    box-sizing: border-box; /* ADIÇÃO: Garante que o padding não quebre o layout */
-    text-align: center; /* ADIÇÃO: Centraliza o texto dentro do botão */
+    display: block; 
+    width: 100%; 
+    box-sizing: border-box; 
+    text-align: center; 
     
-    background-color: #f39c12; /* (Estilo existente) */
-    color: white; /* (Estilo existente) */
-    text-decoration: none; /* (Estilo existente) */
-    padding: 12px 20px; /* (Estilo existente) */
-    border-radius: 5px; /* (Estilo existente) */
-    font-weight: bold; /* (Estilo existente) */
-    margin-top: 20px; /* (Estilo existente) */
-    transition: background-color 0.3s; /* (Estilo existente) */
+    background-color: #f39c12; 
+    color: white; 
+    text-decoration: none; 
+    padding: 12px 20px; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    margin-top: 20px; 
+    transition: background-color 0.3s; 
 }
 
 .manual-button:hover {
     background-color: #e67e22;
 }
 
-/* --- Responsividade do Modal de Specs --- */
+
 @media (max-width: 768px) {
     .spec-modal-layout {
-        flex-direction: column; /* Empilha a imagem em cima das infos */
+        flex-direction: column; 
     }
 }
 
-/* --- Ajuste para a bolha do usuário (sem avatar) --- */
+
 .user-row .message-content {
-    max-width: 100%; /* Permite que a bolha do usuário ocupe o espaço */
+    max-width: 100%; 
 }
 
-/* --- Estilos da Tela de Espera (NOVO) --- */
+
 #chat-waiting {
     padding: 30px;
     text-align: center;
     height: 100%;
-    /* display: flex; (O JavaScript vai controlar isso) */
+    
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    box-sizing: border-box; 
 }
 
 #chat-waiting h3 {
@@ -666,9 +639,9 @@ footer {
 }
 
 #countdown-text {
-    font-size: 1.5em; /* Um pouco menor, mas ainda destacado */
+    font-size: 1.5em; 
     font-weight: bold;
-    color: #1abc9c; /* Verde do tema */
+    color: #1abc9c; 
     margin: 15px 0;
 }
 
@@ -677,9 +650,9 @@ footer {
     color: #888;
 }
 
-/* --- Estilo do Botão do Hero (NOVO) --- */
+
 .hero-cta-button {
-    background: #1abc9c; /* Cor de destaque do site */
+    background: #1abc9c; 
     color: white;
     padding: 15px 30px;
     text-decoration: none;
@@ -692,24 +665,21 @@ footer {
 }
 
 .hero-cta-button:hover {
-    background-color: #16a085; /* Tom mais escuro */
-    transform: translateY(-2px); /* Efeito de "levantar" */
+    background-color: #16a085; 
+    transform: translateY(-2px); 
 }
 
-/* =====================================================
---- ESTILOS DO MODAL DE TERMOS DE USO ---
-=====================================================
-*/
+
 
 .terms-modal-backdrop {
-    display: none; /* JS vai mostrar no load, se necessário */
+    display: none; 
     position: fixed;
-    z-index: 1003; /* Acima de tudo */
+    z-index: 1003; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Mais escuro para focar */
+    background-color: rgba(0, 0, 0, 0.7); 
     justify-content: center;
     align-items: center;
 }
@@ -719,7 +689,7 @@ footer {
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 90%;
-    max-width: 700px; /* Um bom tamanho para texto */
+    max-width: 700px; 
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -731,10 +701,10 @@ footer {
     color: #2c3e50;
 }
 
-/* Área rolável para os termos */
+
 .terms-text-content {
-    max-height: 300px; /* Limita a altura do texto */
-    overflow-y: auto; /* Adiciona scroll */
+    max-height: 300px; 
+    overflow-y: auto; 
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -748,9 +718,9 @@ footer {
     line-height: 1.5;
 }
 
-/* Botão de Aceite */
+
 #terms-accept-btn {
-    background: #1abc9c; /* Verde do tema */
+    background: #1abc9c; 
     color: white;
     border: none;
     padding: 15px 30px;
@@ -770,17 +740,12 @@ footer {
 #modal-product-price {
     font-size: 24px;
     font-weight: bold;
-    color: #1abc9c; /* Cor verde do tema */
-    margin-top: 10px; /* Espaço acima */
-    margin-bottom: 15px; /* Espaço abaixo (antes da descrição) */
+    color: #1abc9c; 
+    margin-top: 10px; 
+    margin-bottom: 15px; 
 }
 
-/* =====================================================
---- (NOVO) ESTILOS DO CARRINHO DE COMPRAS ---
-=====================================================
-*/
 
-/* --- Link do Carrinho no Header --- */
 #cart-nav-link {
     background-color: #1abc9c;
     color: white;
@@ -790,14 +755,14 @@ footer {
 }
 #cart-nav-link:hover {
     background-color: #16a085;
-    color: white; /* Garante que a cor do hover se mantenha */
+    color: white; 
 }
 
-/* --- Botão de Adicionar ao Carrinho (Modal de Specs) --- */
+
 .add-to-cart-button {
     display: block;
     width: 100%;
-    background-color: #1abc9c; /* Verde do tema */
+    background-color: #1abc9c; 
     color: white;
     text-decoration: none;
     padding: 12px 20px;
@@ -816,9 +781,9 @@ footer {
 }
 
 
-/* --- Conteúdo do Modal do Carrinho --- */
+
 .cart-modal-content {
-    max-width: 700px; /* Um pouco menor que o de specs */
+    max-width: 700px; 
 }
 
 .cart-close-btn {
@@ -834,7 +799,7 @@ footer {
     color: #000;
 }
 
-/* --- Lista de Itens do Carrinho --- */
+
 #cart-items-list {
     max-height: 400px;
     overflow-y: auto;
@@ -870,7 +835,7 @@ footer {
 }
 
 .cart-item-info {
-    flex-grow: 1; /* Ocupa o espaço restante */
+    flex-grow: 1; 
 }
 .cart-item-info h4 {
     margin: 0 0 5px 0;
@@ -907,7 +872,7 @@ footer {
 }
 
 
-/* --- Área do Total --- */
+
 #cart-total-area {
     display: flex;
     justify-content: space-between;
@@ -926,11 +891,11 @@ footer {
     color: #1abc9c;
 }
 
-/* --- Botão de Finalizar Compra --- */
+
 .checkout-button {
     display: block;
     width: 100%;
-    background-color: #f39c12; /* Laranja */
+    background-color: #f39c12;
     color: white;
     text-decoration: none;
     padding: 15px 20px;
@@ -948,14 +913,8 @@ footer {
 }
 
 
-/* =====================================================
---- (NOVO) ESTILOS MODAL PAGAMENTO E SUCESSO ---
-=====================================================
-*/
-
-/* --- Modal de Pagamento --- */
 .payment-modal-content {
-    max-width: 500px; /* Mais estreito para formulário */
+    max-width: 500px; 
 }
 
 .payment-close-btn {
@@ -971,7 +930,7 @@ footer {
     color: #000;
 }
 
-/* --- Formulário de Pagamento --- */
+
 #payment-form {
     display: flex;
     flex-direction: column;
@@ -995,7 +954,7 @@ footer {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    box-sizing: border-box; 
 }
 
 .form-row {
@@ -1004,11 +963,11 @@ footer {
 }
 
 .form-row .form-group {
-    flex: 1; /* Ocupa metade do espaço */
+    flex: 1; 
 }
 
 .pay-now-button {
-    background: #1abc9c; /* Verde do tema */
+    background: #1abc9c; 
     color: white;
     padding: 15px;
     border: none;
@@ -1025,11 +984,11 @@ footer {
 }
 
 
-/* --- Modal de Sucesso --- */
+
 .success-modal-content {
     max-width: 450px;
     text-align: center;
-    padding: 40px; /* Mais padding para destacar */
+    padding: 40px; 
 }
 
 .success-close-btn {
@@ -1071,14 +1030,9 @@ footer {
     color: #1abc9c;
 }
 
-/* =====================================================
---- (NOVO) Estilos para Botões Dentro do Chat ---
-=====================================================
-*/
 
-/* Botão para ver especificações (abre o modal) */
 .chat-spec-button {
-    background-color: #1abc9c; /* Cor verde do tema */
+    background-color: #1abc9c; 
     color: white;
     border: none;
     padding: 10px 15px;
@@ -1087,22 +1041,22 @@ footer {
     font-size: 14px;
     font-weight: bold;
     transition: background-color 0.3s;
-    display: inline-block; /* Para ficar dentro do balão */
+    display: inline-block; 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 .chat-spec-button:hover {
     background-color: #16a085;
 }
 
-/* Botão para baixar manual (link <a> estilizado) */
+
 .chat-manual-button {
-    background-color: #f39c12; /* Cor laranja do tema */
+    background-color: #f39c12; 
     color: white;
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 5px;
     font-weight: bold;
-    display: inline-block; /* Para ficar dentro do balão */
+    display: inline-block; 
     transition: background-color 0.3s;
     font-size: 14px;
 }

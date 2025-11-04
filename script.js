@@ -265,7 +265,7 @@ const intents = {
         'sim, vou querer esse', 'pode fechar', 'vou comprar esse mesmo', 'vou comprar'
     ],
     PEDIR_ESPECIFICACOES: [
-        'especificações', 'especificação', 'specs', 'detalhes', 'ficha técnica'
+        'especificações', 'especificação', 'specs', 'detalhes', 'ficha técnica', 'manual', "manual do usuário"
     ],
     VERIFICAR_SOFTWARE: ['premiere', 'after effects', 'travar', 'roda esses softwares'],
     TERMOS_DE_USO: ['termos', 'uso', 'política', 'privacidade', 'regras', 'condições'],
@@ -357,22 +357,97 @@ function findAndRecommendProduct(userInput) {
     }
 }
 
-function getBotResponse(userInput) {
-    // ... (Esta função está correta) ...
-    const text = userInput.toLowerCase().trim();
-    let intentFound = null;
-    for (const intentName of Object.keys(intents)) {
-        const keywords = intents[intentName];
-        for (const keyword of keywords) {
-            if (text.includes(keyword)) {
-                intentFound = intentName;
-                break;
-            }
+function findIntent(text, intentName) {
+    const keywords = intents[intentName];
+    if (!keywords) return false; // Proteção caso a intenção não exista
+    
+    for (const keyword of keywords) {
+        if (text.includes(keyword)) {
+            return true;
         }
-        if (intentFound) break;
     }
-    if (intentFound === 'CONFIRMAR_COMPRA') {
+    return false;
+}
+
+
+function handleSendMessage() {
+    const userInput = chatInput.value.trim();
+
+    // 1. Não faz nada se a mensagem estiver vazia
+    if (userInput === '') return;
+
+    // 2. Adiciona a mensagem do usuário à interface
+    addMessage(userInput, 'user');
+
+    // 3. Limpa o campo de input
+    chatInput.value = '';
+
+    // 4. Verifica o estado do chat (pedindo nome ou conversando)
+    if (chatState === 'asking_name') {
+        // Salva o nome do usuário (removendo "me chamo", etc. se houver)
+        userName = userInput.replace(/meu nome é|me chamo/gi, '').trim();
+        
+        // Corrige o nome se ele for só "Lucas."
+        userName = userName.charAt(0).toUpperCase() + userName.slice(1).replace('.', '');
+        
+        chatState = 'chatting'; // Muda o estado para "conversando"
+        chatInput.placeholder = 'Digite sua mensagem...'; // Restaura o placeholder
+
+        // Responde com a saudação
+        let botResponse = responses.SAUDACAO.replace('[NOME]', userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+
+    } else {
+        // 5. Se já estiver conversando, apenas chama o 'cérebro' do bot
+        getBotResponse(userInput);
+    }
+}
+
+function getBotResponse(userInput) {
+    const text = userInput.toLowerCase().trim();
+
+    // --- (NOVA LÓGICA DE PRIORIDADE) ---
+
+    // 1. PRIORIDADE MÁXIMA: Pedir Specs ou Manual
+    // (Verifica se a MENSAGEM ATUAL tem a palavra, mesmo que também tenha "comprar")
+    if (findIntent(text, 'PEDIR_ESPECIFICACOES')) {
+        
         if (lastRecommendedProduct) {
+            // Se um produto foi recomendado, seja específico
+            const product = lastRecommendedProduct;
+            let specificResponse = '';
+
+            // Verifica se o usuário pediu o MANUAL
+            if (text.includes('manual')) {
+                specificResponse = `Claro, ${userName}! Aqui está o link direto para o manual do <strong>${product.name}</strong>:
+                                 <br><br>
+                                 <a href="${product.manualLink}" target="_blank" class="chat-manual-button">
+                                     Baixar Manual (PDF)
+                                 </a>`;
+            } else {
+                // Se pediu especificações, ficha, etc.
+                specificResponse = `Com certeza, ${userName}! Você pode ver todos os detalhes e a ficha técnica completa do <strong>${product.name}</strong> clicando no botão abaixo:
+                                 <br><br>
+                                 <button class="chat-spec-button" onclick="openProductModal('${product.id}')">
+                                     Ver Detalhes do ${product.name}
+                                 </button>`;
+            }
+            
+            // (MELHORIA) Adiciona uma pergunta de acompanhamento
+            specificResponse += `<br><br>Posso ajudar com algo mais ou gostaria de confirmar a compra?`;
+            
+            setTimeout(() => { addMessage(specificResponse, 'bot'); }, 700);
+
+        } else {
+            // Se não há produto em contexto, peça para especificar
+            let botResponse = `Claro, ${userName}. Sobre qual produto você gostaria de ver os detalhes ou o manual? Por favor, me diga o que procura primeiro.`;
+            setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+        }
+    
+    // 2. SEGUNDA PRIORIDADE: Confirmar Compra
+    // (Só executa se NÃO pediu manual/specs na mesma frase)
+    } else if (findIntent(text, 'CONFIRMAR_COMPRA')) {
+         if (lastRecommendedProduct) {
             const product = lastRecommendedProduct;
             const purchaseResponse = `Parabéns, ${userName}!<br>Sua compra foi aprovada!<br><br>
                                    🧾 <strong>Pedido:</strong> ${Math.floor(Math.random() * 1000) + 100}<br>
@@ -384,36 +459,32 @@ function getBotResponse(userInput) {
         } else {
             setTimeout(() => { addMessage(`Claro, ${userName}. O que você gostaria de comprar? Por favor, me diga o que procura primeiro.`, 'bot'); }, 700);
         }
-    } else if (intentFound === 'BUSCAR_PRODUTO') {
-        findAndRecommendProduct(userInput);
-    } else if (intentFound) {
-        let botResponse = responses[intentFound];
-        if (userName) {
-            botResponse = botResponse.replace(/\[NOME\]/g, userName);
-        }
-        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
-    } else {
-        let botResponse = responses.FALLBACK;
-        if (userName) {
-            botResponse = botResponse.replace(/\[NOME\]/g, userName);
-        }
-        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
-    }
-}
 
-function handleSendMessage() {
-    // ... (Esta função está correta) ...
-    const message = chatInput.value;
-    if (message.trim() === '') return;
-    addMessage(message, 'user');
-    chatInput.value = '';
-    if (chatState === 'asking_name') {
-        userName = message.trim();
-        chatState = 'chatting';
-        chatInput.placeholder = 'Digite sua mensagem...';
-        setTimeout(() => { addMessage(`Que bom ter você aqui, ${userName}! Como posso ajudar?`, 'bot'); }, 700);
-    } else if (chatState === 'chatting') {
-        getBotResponse(message);
+    // 3. TERCEIRA PRIORIDADE: Buscar Produto
+    } else if (findIntent(text, 'BUSCAR_PRODUTO')) {
+         findAndRecommendProduct(userInput);
+    
+    // 4. OUTRAS INTENÇÕES (a ordem aqui importa menos)
+    } else if (findIntent(text, 'VERIFICAR_SOFTWARE')) {
+        let botResponse = responses.VERIFICAR_SOFTWARE.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+    } else if (findIntent(text, 'TERMOS_DE_USO')) {
+        let botResponse = responses.TERMOS_DE_USO.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+    } else if (findIntent(text, 'AJUDA_HUMANA')) {
+        let botResponse = responses.AJUDA_HUMANA.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+    } else if (findIntent(text, 'DESPEDIDA')) {
+        let botResponse = responses.DESPEDIDA.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+    } else if (findIntent(text, 'SAUDACAO')) {
+        let botResponse = responses.SAUDACAO.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
+    
+    // 5. FALLBACK (se nada mais for encontrado)
+    } else {
+        let botResponse = responses.FALLBACK.replace(/\[NOME\]/g, userName);
+        setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
     }
 }
 

@@ -1070,3 +1070,44 @@ footer {
     font-weight: bold;
     color: #1abc9c;
 }
+
+/* =====================================================
+--- (NOVO) Estilos para Botões Dentro do Chat ---
+=====================================================
+*/
+
+/* Botão para ver especificações (abre o modal) */
+.chat-spec-button {
+    background-color: #1abc9c; /* Cor verde do tema */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    display: inline-block; /* Para ficar dentro do balão */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.chat-spec-button:hover {
+    background-color: #16a085;
+}
+
+/* Botão para baixar manual (link <a> estilizado) */
+.chat-manual-button {
+    background-color: #f39c12; /* Cor laranja do tema */
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block; /* Para ficar dentro do balão */
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.chat-manual-button:hover {
+    background-color: #e67e22;
+    color: white;
+}

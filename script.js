@@ -259,7 +259,7 @@ const responses = {
     // ... (Seu objeto 'responses' está correto) ...
     SAUDACAO: 'Olá, [NOME]! 👋 Como posso te ajudar hoje?',
     PEDIR_ESPECIFICACOES: 'Claro, [NOME]! Você pode consultar a ficha técnica completa e todos os detalhes do produto na página dele em nosso site. Posso ajudar com algo mais?',
-    VERIFICAR_SOFTWARE: 'Sim, [NOME], o UltraBook ZX-5000 roda esses softwares com tranquilidade! Foi projetado para isso.',
+    VERIFICAR_SOFTWARE: 'Então, [NOME], nós recomendamos que você veja as especificações do produto no nosso site, basta clicar em "Ver Detalhes" e você poderá consultar se o programa que você deseja roda no produto escolhido.',
     TERMOS_DE_USO: 'Perfeito, você pode consultar os nossos termos de uso no final da página inicial de nosso site.',
     AJUDA_HUMANA: 'Ok, vou te encaminhar pra um atendente humano e encerrar esse atendimento, só um momento por favor...',
     DESPEDIDA: 'Eu que agradeço, [NOME]! Tenha um ótimo dia! 😊',
@@ -461,4 +461,5 @@ window.addEventListener('load', () => {
     if (localStorage.getItem('termsAccepted') !== 'true') {
         termsModal.style.display = 'flex';
     }
+
 });

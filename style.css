@@ -1065,3 +1065,200 @@ footer {
     background-color: #e67e22;
     color: white;
 }
+
+.payment-choice-content {
+    max-width: 500px;
+    text-align: center;
+}
+
+.payment-choice-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.payment-choice-close-btn:hover {
+    color: #000;
+}
+
+.payment-choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.payment-choice-button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.payment-choice-button:nth-child(1) { 
+    background-color: #1abc9c; 
+    color: white;
+}
+.payment-choice-button:nth-child(1):hover {
+    background-color: #16a085;
+}
+
+.payment-choice-button:nth-child(2) { 
+    background-color: #3498db; 
+    color: white;
+}
+.payment-choice-button:nth-child(2):hover {
+    background-color: #2980b9;
+}
+
+
+.pix-modal-content {
+    max-width: 450px;
+    text-align: center;
+}
+
+.pix-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.pix-close-btn:hover {
+    color: #000;
+}
+
+#pix-qr-code-image {
+    max-width: 250px;
+    width: 100%;
+    margin: 15px auto;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+    min-height: 250px;
+}
+
+.pix-modal-content p strong {
+    color: #333;
+}
+
+#pix-order-total {
+    font-weight: bold;
+    color: #1abc9c;
+    font-size: 1.2em;
+}
+
+
+#pix-timer-message {
+    font-size: 16px;
+    color: #555;
+    margin-top: 20px;
+}
+#pix-countdown {
+    font-weight: bold;
+    color: #e67e22; 
+    font-size: 1.1em;
+}
+
+
+
+.chat-message .chat-payment-options {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-message .chat-payment-btn {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95em; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.chat-message .chat-payment-btn.pix {
+    background-color: #1abc9c; 
+    color: white;
+}
+.chat-message .chat-payment-btn.pix:hover {
+    background-color: #16a085;
+}
+
+.chat-message .chat-payment-btn.card {
+    background-color: #3498db;
+    color: white;
+}
+.chat-message .chat-payment-btn.card:hover {
+    background-color: #2980b9;
+}
+
+
+.alert-modal-content {
+    max-width: 450px;
+    text-align: center;
+    padding: 40px; 
+    border-radius: 12px;
+}
+
+.alert-close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+.alert-close-btn:hover {
+    color: #000;
+}
+
+.alert-icon {
+    font-size: 50px;
+    
+    color: #f39c12; 
+    margin-bottom: 15px;
+}
+
+.alert-modal-content h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.alert-modal-content p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.alert-ok-button {
+    background: #f39c12;
+    color: white;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.alert-ok-button:hover {
+    background-color: #e67e22;
+}

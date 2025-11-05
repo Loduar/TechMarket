@@ -1,4 +1,3 @@
-
 const chatBubble = document.getElementById('chat-bubble');
 const chatModal = document.getElementById('chat-modal');
 const closeModalBtn = document.querySelector('.close-btn');
@@ -54,11 +53,28 @@ const successModal = document.getElementById('success-modal');
 const successCloseBtn = document.querySelector('.success-close-btn');
 const successOrderTotal = document.getElementById('success-order-total');
 
+const paymentChoiceModal = document.getElementById('payment-choice-modal');
+const paymentChoiceCloseBtn = document.querySelector('.payment-choice-close-btn');
+const payWithPixBtn = document.getElementById('pay-with-pix-btn');
+const payWithCardBtn = document.getElementById('pay-with-card-btn');
+
+const pixModal = document.getElementById('pix-modal');
+const pixCloseBtn = document.querySelector('.pix-close-btn');
+const pixOrderTotal = document.getElementById('pix-order-total');
+
+
+const alertModal = document.getElementById('alert-modal');
+const alertMessage = document.getElementById('alert-message');
+const alertCloseBtn = document.querySelector('.alert-close-btn');
+const alertOkBtn = document.getElementById('alert-ok-btn');
+
 
 let userName = ''; 
 let chatState = 'options';
 let lastRecommendedProduct = null;
+let productForPayment = null;
 let countdownTimerInterval = null; 
+let pixCountdownInterval = null; 
 let shoppingCart = []; 
 
 
@@ -178,6 +194,7 @@ function closeModal() {
     chatMessages.innerHTML = ''; 
     chatState = 'options';
     userName = '';
+    productForPayment = null; 
     if (countdownTimerInterval) {
         clearInterval(countdownTimerInterval);
     }
@@ -220,6 +237,14 @@ function closeProductModal() {
     productModal.style.display = 'none';
 }
 
+function openAlertModal(message) {
+    alertMessage.innerText = message;
+    alertModal.style.display = 'flex';
+}
+
+function closeAlertModal() {
+    alertModal.style.display = 'none';
+}
 
 function closeTermsModal() {
     termsModal.style.display = 'none';
@@ -393,12 +418,62 @@ function handleSendMessage() {
         
         let botResponse = responses.SAUDACAO.replace('[NOME]', userName);
         setTimeout(() => { addMessage(botResponse, 'bot'); }, 700);
-
+    
+    
+    } else if (chatState === 'awaiting_payment_method') {
+        handlePaymentMethodChoice(userInput);
+        
     } else {
         
         getBotResponse(userInput);
     }
 }
+
+function handlePaymentMethodChoice(userInput) {
+    const text = userInput.toLowerCase();
+    let paymentMethod = '';
+
+    if (text.includes('pix')) {
+        paymentMethod = 'PIX';
+    } else if (text.includes('cartão') || text.includes('cartao') || text.includes('crédito')) {
+        paymentMethod = 'Cartão';
+    }
+
+    if (paymentMethod) {
+        handleChatPayment(paymentMethod); 
+    } else if (!productForPayment) {
+        setTimeout(() => { addMessage(`Desculpe, ${userName}, parece que me perdi. O que você gostaria de comprar?`, 'bot'); }, 700);
+        chatState = 'chatting';
+    } else {
+        setTimeout(() => { addMessage(`Desculpe, ${userName}, não entendi. Por favor, clique em "Pagar com PIX" ou "Pagar com Cartão" acima.`, 'bot'); }, 700);
+    }
+}
+
+function handleChatPayment(method) {
+    let paymentMethod = method;
+
+    if (paymentMethod && productForPayment) {
+        
+        shoppingCart = []; 
+        addToCart(productForPayment.id);
+
+        closeModal(); 
+
+        if (paymentMethod === 'PIX') {
+            startPixPaymentFlow();
+        } else { 
+            paymentModal.style.display = 'flex'; 
+        }
+        
+        productForPayment = null;
+        chatState = 'chatting';
+
+    } else if (!productForPayment) {
+        console.error("handleChatPayment chamado, mas productForPayment é nulo.");
+        closeModal();
+    }
+}
+
 
 function getBotResponse(userInput) {
     const text = userInput.toLowerCase().trim();
@@ -441,14 +516,19 @@ function getBotResponse(userInput) {
    
     } else if (findIntent(text, 'CONFIRMAR_COMPRA')) {
          if (lastRecommendedProduct) {
-            const product = lastRecommendedProduct;
-            const purchaseResponse = `Parabéns, ${userName}!<br>Sua compra foi aprovada!<br><br>
-                                   🧾 <strong>Pedido:</strong> ${Math.floor(Math.random() * 1000) + 100}<br>
-                                   💻 <strong>Produto:</strong> ${product.name}<br>
-                                   💰 <strong>Valor total:</strong> ${product.priceFormatted}<br>
-                                   💳 <strong>Forma de pagamento:</strong> Cartão de crédito`;
-            setTimeout(() => { addMessage(purchaseResponse, 'bot'); }, 700);
-            lastRecommendedProduct = null;
+            productForPayment = lastRecommendedProduct; 
+            chatState = 'awaiting_payment_method';
+            lastRecommendedProduct = null; 
+            
+            const questionResponse = `
+                Ótima escolha, ${userName}!<br>Como você prefere pagar pelo <strong>${productForPayment.name}</strong>?
+                <div class="chat-payment-options">
+                    <button class="chat-payment-btn pix" onclick="handleChatPayment('PIX')">Pagar com PIX</button>
+                    <button class="chat-payment-btn card" onclick="handleChatPayment('Cartão')">Pagar com Cartão</button>
+                </div>
+            `;
+            setTimeout(() => { addMessage(questionResponse, 'bot'); }, 700);
+            
         } else {
             setTimeout(() => { addMessage(`Claro, ${userName}. O que você gostaria de comprar? Por favor, me diga o que procura primeiro.`, 'bot'); }, 700);
         }
@@ -590,6 +670,16 @@ window.addEventListener('click', function(event) {
     if (event.target == successModal) {
         successModal.style.display = 'none';
     }
+    if (event.target == paymentChoiceModal) {
+        paymentChoiceModal.style.display = 'none';
+    }
+    if (event.target == pixModal) { 
+        pixModal.style.display = 'none';
+        clearInterval(pixCountdownInterval); 
+    }
+    if (event.target == alertModal) {
+        closeAlertModal();
+    }
 });
 
 
@@ -672,21 +762,129 @@ cartItemsList.addEventListener('click', (e) => {
 });
 
 
+
 checkoutBtn.addEventListener('click', () => {
     if (shoppingCart.length === 0) {
-        alert("Seu carrinho está vazio!");
+        openAlertModal("Seu carrinho está vazio!");
         return;
     }
     
-    
+  
     shoppingCartModal.style.display = 'none';
-    paymentModal.style.display = 'flex';
+    paymentChoiceModal.style.display = 'flex';
+});
+
+
+paymentChoiceCloseBtn.addEventListener('click', () => {
+    paymentChoiceModal.style.display = 'none';
+});
+
+payWithCardBtn.addEventListener('click', () => {
+    paymentChoiceModal.style.display = 'none';
+    paymentModal.style.display = 'flex'; 
+});
+
+
+payWithPixBtn.addEventListener('click', () => {
+    paymentChoiceModal.style.display = 'none';
+    startPixPaymentFlow();
 });
 
 
 
+function startPixPaymentFlow() {
+    const totalValue = cartTotalPrice.innerText;
+    pixOrderTotal.innerText = totalValue; 
+    pixModal.style.display = 'flex'; 
+    startPixTimer(); 
+}
+
+function startPixTimer() {
+    const countdownElement = document.getElementById('pix-countdown');
+    let secondsLeft = 30;
+    countdownElement.innerText = secondsLeft; 
+
+    if (pixCountdownInterval) {
+        clearInterval(pixCountdownInterval);
+    }
+
+    pixCountdownInterval = setInterval(() => {
+        secondsLeft--;
+        countdownElement.innerText = secondsLeft;
+
+        if (secondsLeft <= 0) {
+            clearInterval(pixCountdownInterval);
+            approvePixPayment();
+        }
+    }, 1000); 
+}
+
+function approvePixPayment() {
+    const totalValue = cartTotalPrice.innerText;
+    successOrderTotal.innerText = totalValue; 
+    
+    pixModal.style.display = 'none';
+    successModal.style.display = 'flex'; 
+    
+    // Limpa o carrinho
+    shoppingCart = [];
+    updateCartUI(); 
+}
+
+
+
+
+
+pixCloseBtn.addEventListener('click', () => {
+    pixModal.style.display = 'none';
+    clearInterval(pixCountdownInterval); 
+});
+
+
+
+alertCloseBtn.addEventListener('click', closeAlertModal);
+alertOkBtn.addEventListener('click', closeAlertModal);
+
+
 paymentCloseBtn.addEventListener('click', () => {
     paymentModal.style.display = 'none';
+});
+
+
+const cardNumberInput = document.getElementById('card-number');
+const cardNameInput = document.getElementById('card-name');
+const cardExpiryInput = document.getElementById('card-expiry');
+const cardCvvInput = document.getElementById('card-cvv');
+
+cardNumberInput.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 16) {
+        value = value.substring(0, 16);
+    }
+    e.target.value = value.match(/.{1,4}/g)?.join(' ') || '';
+});
+
+cardNameInput.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z\sà-úÀ-Ú]/g, '');
+});
+
+cardExpiryInput.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 4) {
+        value = value.substring(0, 4);
+    }
+    if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2);
+    }
+    e.target.value = value;
+});
+
+cardCvvInput.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 3) {
+        value = value.substring(0, 3);
+    }
+    e.target.value = value;
 });
 
 
